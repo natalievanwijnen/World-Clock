@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="src/style.css" />
+    <link rel="stylesheet" href="src/styles.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xjr5fmy.css" />
     <title>World Clock</title>
   </head>
@@ -19,23 +19,31 @@
         <option value="">Mumbai</option>
       </select>
 
-      <div class="city">
+      <div class="city" id="city-clock">
         <h2>Perth</h2>
+        <div class="flip" id="city-hours-tens">
+          <div class="card">0</div>
+        </div>
+        <div class="flip" id="city-hours-units">
+          <div class="card">1</div>
+        </div>
+        <span class="separator">:</span>
+        <div class="flip" id="city-minutes-tens">
+          <div class="card">2</div>
+        </div>
+        <div class="flip" id="city-minutes-units">
+          <div class="card">3</div>
+        </div>
+        <span class="separator">:</span>
+        <div class="flip" id="city-seconds-tens">
+          <div class="card">4</div>
+        </div>
+        <div class="flip" id="city-seconds-units">
+          <div class="card">5</div>
+        </div>
         <div class="date">March 7th 2024</div>
-        <div class="time">8:33:45 PM</div>
-      </div>
-      <div class="city">
-        <h2>Brighton</h2>
-        <div class="date">March 7th 2024</div>
-        <div class="time">8:33:45 PM</div>
-      </div>
-      <div class="city">
-        <h2>Seoul</h2>
-        <div class="date">March 7th 2024</div>
-        <div class="time">8:33:45 PM</div>
       </div>
     </div>
-    <br />
     <footer>
       made with love and caffè macchiato
       <br />

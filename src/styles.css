@@ -1,0 +1,93 @@
+/* Default Theme */
+:root {
+  --background-color: #111;
+  --text-color: #e7e7e7;
+}
+
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+select {
+  border: none;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin-bottom: 20px;
+  padding: 5px;
+}
+
+.city {
+  margin: 20px 0;
+}
+
+.flip {
+  font-size: 32px;
+  perspective: 1000px;
+  display: inline-block;
+  margin: 0 5px 20px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.flip:hover .card {
+  transform: rotateY(180deg);
+}
+
+.card:before,
+.card:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.card:before {
+  background-color: var(--text-color);
+  transform: rotateY(180deg);
+}
+
+.separator {
+  margin: 0 5px;
+}
+
+.date {
+  margin-top: 10px;
+  font-size: 0.8em;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.8em;
+  color: var(--text-color);
+}
+
+footer a {
+  color: var(--text-color);
+}
