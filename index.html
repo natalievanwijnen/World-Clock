@@ -6,42 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="src/styles.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xjr5fmy.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.37/moment-timezone-with-data-1970-2030.min.js"></script>
     <title>World Clock</title>
   </head>
   <body>
     <div class="container">
-      <h1>world clock</h1>
-
-      <select>
-        <option value="">select a city..</option>
-        <option value="">Auckland</option>
-        <option value="">Barcelona</option>
-        <option value="">Mumbai</option>
+      <h1>World Clock</h1>
+      <select
+        id="citySelector"
+        onchange="updateClock(this.options[this.selectedIndex].text, this.options[this.selectedIndex].getAttribute('data-timezone'))"
+      >
+        <option>Select a city..</option>
+        <option data-timezone="Pacific/Auckland">Auckland</option>
+        <option data-timezone="Europe/Barcelona">Barcelona</option>
+        <option data-timezone="Asia/Kolkata">Mumbai</option>
       </select>
 
-      <div class="city" id="city-clock">
-        <h2>Perth</h2>
-        <div class="flip" id="city-hours-tens">
-          <div class="card">0</div>
+      <div id="clock-container">
+        <h2 class="city">Perth</h2>
+        <div class="clock">
+          <div class="digit" id="city-hours-tens"></div>
+          <div class="digit" id="city-hours-units"></div>
+          <span class="separator">:</span>
+          <div class="digit" id="city-minutes-tens"></div>
+          <div class="digit" id="city-minutes-units"></div>
+          <span class="separator">:</span>
+          <div class="digit" id="city-seconds-tens"></div>
+          <div class="digit" id="city-seconds-units"></div>
+          <div class="am-pm"></div>
         </div>
-        <div class="flip" id="city-hours-units">
-          <div class="card">1</div>
-        </div>
-        <span class="separator">:</span>
-        <div class="flip" id="city-minutes-tens">
-          <div class="card">2</div>
-        </div>
-        <div class="flip" id="city-minutes-units">
-          <div class="card">3</div>
-        </div>
-        <span class="separator">:</span>
-        <div class="flip" id="city-seconds-tens">
-          <div class="card">4</div>
-        </div>
-        <div class="flip" id="city-seconds-units">
-          <div class="card">5</div>
-        </div>
-        <div class="date">March 7th 2024</div>
+        <div class="date"></div>
       </div>
     </div>
     <footer>
