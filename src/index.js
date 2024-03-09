@@ -1,36 +1,64 @@
-function worldClock(city, timezone) {
+document.addEventListener("DOMContentLoaded", function () {
+  let citySelect = document.querySelector("#citySelector");
   let cityElement = document.querySelector("#clock-container .city");
-  let amPmElement = document.querySelector("#clock-container .am-pm");
   let dateElement = document.querySelector(".date");
+  let clockInterval;
 
-  cityElement.innerHTML = city;
+  function initializeClock(city, timezone) {
+    updateClock(city, timezone);
+    startClockInterval(city, timezone);
+  }
 
-  let currentTime = moment().tz(timezone);
+  function updateClock(city, timezone) {
+    let currentTime = moment().tz(timezone);
 
-  updateClock(currentTime.format("HH"), "city-hours");
-  updateClock(currentTime.format("mm"), "city-minutes");
-  updateClock(currentTime.format("ss"), "city-seconds");
+    updateElement("#clock-container .am-pm", currentTime.format("A"));
+    updateElement(".date", currentTime.format("MMMM Do YYYY"));
 
-  updateAmPm(currentTime.format("A"));
+    cityElement.innerHTML = city;
 
-  dateElement.innerHTML = currentTime.format("MMMM Do YYYY");
-}
+    ["hours", "minutes", "seconds"].forEach((unit) => {
+      updateDigit(
+        `#city-${unit}-tens`,
+        `#city-${unit}-units`,
+        currentTime.format(unit === "hours" ? "h" : "mm:ss")
+      );
+    });
+  }
 
-function updateClock(value, flipId) {
-  let tens = document.querySelector(`#${flipId}-tens`);
-  let units = document.querySelector(`#${flipId}-units`);
+  function updateElement(selector, value) {
+    document.querySelector(selector).innerHTML = value;
+  }
 
-  tens.innerHTML = value[0];
-  units.innerHTML = value[1];
-}
+  function updateDigit(tensSelector, unitsSelector, value) {
+    let [tens, units] = value.toString().padStart(2, "0").split("");
 
-function updateAmPm(amPmValue) {
-  let amPmElement = document.querySelector("#clock-container .am-pm");
-  amPmElement.innerHTML = amPmValue;
-}
+    updateElement(tensSelector, tens);
+    updateElement(unitsSelector, units);
+  }
 
-worldClock("Perth", "Australia/Perth");
+  function startClockInterval(city, timezone) {
+    clockInterval = setInterval(() => updateClock(city, timezone), 1000);
+  }
 
-setInterval(function () {
-  worldClock("Perth", "Australia/Perth");
-}, 1000);
+  function updateCity() {
+    let selectedOption = citySelect.options[citySelect.selectedIndex];
+
+    if (selectedOption && !selectedOption.disabled) {
+      let cityTimezone = selectedOption.getAttribute("data-timezone");
+      let selectedCity = selectedOption.text;
+
+      cityElement.innerHTML = selectedCity;
+      clearInterval(clockInterval);
+      initializeClock(selectedCity, cityTimezone);
+    }
+  }
+
+  citySelect.addEventListener("change", updateCity);
+
+  let defaultCityTimezone = "Australia/Perth";
+  let defaultCity = "Perth";
+
+  cityElement.innerHTML = defaultCity;
+  initializeClock(defaultCity, defaultCityTimezone);
+});
