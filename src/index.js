@@ -21,7 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
       updateDigit(
         `#city-${unit}-tens`,
         `#city-${unit}-units`,
-        currentTime.format(unit === "hours" ? "h" : "mm:ss")
+        currentTime.format(
+          unit === "hours" ? "h" : unit === "minutes" ? "mm" : "ss"
+        )
       );
     });
   }
