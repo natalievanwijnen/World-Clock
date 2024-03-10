@@ -38,52 +38,58 @@ select {
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: "source-sans-pro", sans-serif;
+  font-size: 16px;
   font-weight: 300;
   font-style: normal;
-  margin-bottom: 30px;
   outline: none;
-  padding: 5px;
+  padding: 8px;
 }
 
 .clock-container {
   margin: 20px 0;
+  padding: 20px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .clock {
   display: inline-block;
   margin: 10px;
+  text-align: center;
+}
+
+.city {
+  font-size: 32px;
+  margin-bottom: 5px;
 }
 
 .digit {
-  font-size: 32px;
-  display: inline-block;
+  font-size: 28px;
+  display: inline;
   margin: 0 5px;
 }
 
-.separator {
-  margin: 0 5px;
-}
-
+.separator,
 .am-pm {
-  display: inline-block;
-  margin-left: 5px;
+  display: inline;
+  font-size: 14px;
   vertical-align: 3px;
 }
 
 .date {
+  font-size: 20px;
   margin-top: 10px;
-  font-size: 1em;
 }
 
 footer {
-  margin-top: 30px;
+  font-size: 16px;
   text-align: center;
-  font-size: 1em;
 }
 
 footer a {
   color: var(--text-color);
+  font-size: 16px;
   text-decoration: none;
 }
