@@ -35,7 +35,7 @@ select {
   font-family: "source-sans-pro", sans-serif;
   font-weight: 300;
   font-style: normal;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   outline: none;
   padding: 5px;
 }
@@ -48,6 +48,7 @@ select {
 
 .clock {
   display: inline-block;
+  margin: 10px;
 }
 
 .digit {
@@ -72,7 +73,7 @@ select {
 }
 
 footer {
-  margin-top: 20px;
+  margin-top: 30px;
   text-align: center;
   font-size: 1em;
 }

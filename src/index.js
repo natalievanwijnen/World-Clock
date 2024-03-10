@@ -45,6 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function updateCity() {
     let selectedOption = citySelect.options[citySelect.selectedIndex];
+    if (selectedOption === "current") {
+      cityTimezone = moment.tz.guess();
+    }
 
     if (selectedOption && !selectedOption.disabled) {
       let cityTimezone = selectedOption.getAttribute("data-timezone");
