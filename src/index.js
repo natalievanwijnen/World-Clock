@@ -1,26 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
   let citySelect = document.querySelector("#citySelector");
-  let cityElement = document.querySelector("#clock-container .city");
-  let dateElement = document.querySelector(".date");
-  let clockInterval;
+  let perthClockContainer = document.querySelector("#perth-clock-container");
+  let brightonClockContainer = document.querySelector(
+    "#brighton-clock-container"
+  );
 
-  function initializeClock(city, timezone) {
-    updateClock(city, timezone);
-    startClockInterval(city, timezone);
+  function initializeClock(city, timezone, clockContainer) {
+    updateClock(city, timezone, clockContainer);
+    startClockInterval(city, timezone, clockContainer);
   }
 
-  function updateClock(city, timezone) {
+  function updateClock(city, timezone, clockContainer) {
     let currentTime = moment().tz(timezone);
 
-    updateElement("#clock-container .am-pm", currentTime.format("A"));
-    updateElement(".date", currentTime.format("MMMM Do YYYY"));
+    updateElement(clockContainer, ".am-pm", currentTime.format("A"));
+    updateElement(clockContainer, ".date", currentTime.format("MMMM Do YYYY"));
 
+    let cityElement = clockContainer.querySelector(".city");
     cityElement.innerHTML = city;
 
     ["hours", "minutes", "seconds"].forEach((unit) => {
       updateDigit(
-        `#city-${unit}-tens`,
-        `#city-${unit}-units`,
+        clockContainer,
+        `#${city.toLowerCase()}-${unit}-tens`,
+        `#${city.toLowerCase()}-${unit}-units`,
         currentTime.format(
           unit === "hours" ? "h" : unit === "minutes" ? "mm" : "ss"
         )
@@ -28,19 +31,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function updateElement(selector, value) {
-    document.querySelector(selector).innerHTML = value;
+  function updateElement(clockContainer, selector, value) {
+    clockContainer.querySelector(selector).innerHTML = value;
   }
 
-  function updateDigit(tensSelector, unitsSelector, value) {
+  function updateDigit(clockContainer, tensSelector, unitsSelector, value) {
     let [tens, units] = value.toString().padStart(2, "0").split("");
 
-    updateElement(tensSelector, tens);
-    updateElement(unitsSelector, units);
+    updateElement(clockContainer, tensSelector, tens);
+    updateElement(clockContainer, unitsSelector, units);
   }
 
-  function startClockInterval(city, timezone) {
-    clockInterval = setInterval(() => updateClock(city, timezone), 1000);
+  function startClockInterval(city, timezone, clockContainer) {
+    setInterval(() => updateClock(city, timezone, clockContainer), 1000);
   }
 
   function updateCity() {
@@ -53,17 +56,35 @@ document.addEventListener("DOMContentLoaded", function () {
       let cityTimezone = selectedOption.getAttribute("data-timezone");
       let selectedCity = selectedOption.text;
 
-      cityElement.innerHTML = selectedCity;
-      clearInterval(clockInterval);
-      initializeClock(selectedCity, cityTimezone);
+      let clockContainer;
+      if (selectedCity === "Perth") {
+        clockContainer = perthClockContainer;
+      } else if (selectedCity === "Brighton") {
+        clockContainer = brightonClockContainer;
+      }
+
+      clearInterval(clockContainer.clockInterval);
+      initializeClock(selectedCity, cityTimezone, clockContainer);
     }
   }
 
   citySelect.addEventListener("change", updateCity);
 
+  // Perth
   let defaultCityTimezone = "Australia/Perth";
   let defaultCity = "Perth";
 
-  cityElement.innerHTML = defaultCity;
-  initializeClock(defaultCity, defaultCityTimezone);
+  perthClockContainer.querySelector(".city").innerHTML = defaultCity;
+  initializeClock(defaultCity, defaultCityTimezone, perthClockContainer);
+
+  // Brighton
+  let brightonDefaultCityTimezone = "Europe/London";
+  let brightonDefaultCity = "Brighton";
+
+  brightonClockContainer.querySelector(".city").innerHTML = brightonDefaultCity;
+  initializeClock(
+    brightonDefaultCity,
+    brightonDefaultCityTimezone,
+    brightonClockContainer
+  );
 });
