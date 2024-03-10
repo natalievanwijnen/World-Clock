@@ -28,6 +28,11 @@ h2 {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
 select {
   border: none;
   background-color: var(--background-color);
