@@ -15,22 +15,43 @@
   </head>
   <body>
     <div class="container">
-      <h1><a href="index.html">World Clock</a></h1>
+      <h1><a href="index.html">world clock</a></h1>
       <select id="citySelector">
-        <option value="">Select a city...</option>
-        <option value="America/Los_Angeles">Los Angeles</option>
-        <option value="Australia/Sydney">Sydney</option>
-        <option value="Europe/Paris">Paris</option>
-        <option value="Pacific/Auckland">Auckland</option>
-        <option value="America/New_York">New York</option>
-        <option value="Europe/London">London</option>
-        <option value="America/Chicago">Chicago</option>
-        <option value="Asia/Dubai">Dubai</option>
-        <option value="Europe/Istanbul">Istanbul</option>
-        <option value="Africa/Johannesburg">Johannesburg</option>
-        <option value="America/Sao_Paulo">Sao Paulo</option>
-        <option value="Asia/Tokyo">Tokyo</option>
-        <option value="America/Toronto">Toronto</option>
+        <option value="">select a city..</option>
+        <option value="auto">current location</option>
+        <optgroup label="America">
+          <option value="America/New_York">New York</option>
+          <option value="America/Chicago">Chicago</option>
+          <option value="America/Denver">Denver</option>
+          <option value="America/Los_Angeles">Los Angeles</option>
+          <option value="America/Mexico_City">Mexico City</option>
+          <option value="America/Toronto">Toronto</option>
+        </optgroup>
+        <optgroup label="Europe">
+          <option value="Europe/London">London</option>
+          <option value="Europe/Paris">Paris</option>
+          <option value="Europe/Moscow">Moscow</option>
+          <option value="Europe/Istanbul">Istanbul</option>
+        </optgroup>
+        <optgroup label="Asia">
+          <option value="Asia/Tokyo">Tokyo</option>
+          <option value="Asia/Shanghai">Shanghai</option>
+          <option value="Asia/Hong_Kong">Hong Kong</option>
+          <option value="Asia/Bangkok">Bangkok</option>
+          <option value="Asia/Kolkata">Kolkata</option>
+          <option value="Asia/Dubai">Dubai</option>
+        </optgroup>
+        <optgroup label="Australia/Pacific">
+          <option value="Australia/Sydney">Sydney</option>
+          <option value="Pacific/Auckland">Auckland</option>
+          <option value="Pacific/Honolulu">Honolulu</option>
+        </optgroup>
+        <optgroup label="Africa">
+          <option value="Africa/Johannesburg">Johannesburg</option>
+          <option value="Africa/Cairo">Cairo</option>
+          <option value="Africa/Nairobi">Nairobi</option>
+          <option value="Africa/Casablanca">Casablanca</option>
+        </optgroup>
       </select>
 
       <div id="clocks"></div>
