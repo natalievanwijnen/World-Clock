@@ -1,130 +1,73 @@
-let citySelect = document.querySelector("#citySelector");
-let perthClockContainer = document.querySelector("#perth-clock-container");
-let brightonClockContainer = document.querySelector(
-  "#brighton-clock-container"
-);
-let newClockContainerTemplate = document.querySelector("#new-clock-container");
+document.addEventListener("DOMContentLoaded", function () {
+  let citySelector = document.getElementById("citySelector");
+  let clocksContainer = document.getElementById("clocks");
 
-let clockContainers = [perthClockContainer, brightonClockContainer];
+  citySelector.addEventListener("change", function () {
+    let selectedCity = this.value;
 
-function initializeClock(city, timezone, clockContainer) {
-  updateClock(city, timezone, clockContainer);
-  startClockInterval(city, timezone, clockContainer);
+    if (selectedCity) {
+      removeAllClocks();
+      setClock(selectedCity);
+    }
+  });
+
+  setInitialClocks();
+  setInterval(updateClocks, 1000);
+});
+
+function setInitialClocks() {
+  setClock("Australia/Perth", "Perth");
+  setClock("Europe/London", "Brighton");
 }
 
-function createNewClock(city, timezone) {
-  if (clockContainers.length >= 2) {
-    let oldestClock = clockContainers.shift();
-    clearInterval(oldestClock.clockInterval);
-    oldestClock.parentNode.removeChild(oldestClock);
-  }
+function setClock(timezone, cityName) {
+  let cityElement = document.createElement("div");
+  cityElement.classList.add("city");
 
-  let newClockContainer = newClockContainerTemplate.cloneNode(true);
-  newClockContainer.removeAttribute("style");
+  let cityNameElement = document.createElement("h2");
+  cityNameElement.textContent = cityName;
 
-  document.querySelector(".container").appendChild(newClockContainer);
-  let addedClockContainer = document.querySelector(
-    ".container .clock-container:last-child"
-  );
-  clockContainers.push(addedClockContainer);
+  let cityTimeElement = document.createElement("div");
+  cityTimeElement.classList.add("time");
 
-  addedClockContainer.clockInterval = null;
+  let cityDateElement = document.createElement("div");
+  cityDateElement.classList.add("date");
 
-  let newClockCityElement = addedClockContainer.querySelector(".city");
-  newClockCityElement.innerHTML = city;
+  cityElement.appendChild(cityNameElement);
+  cityElement.appendChild(cityTimeElement);
+  cityElement.appendChild(cityDateElement);
 
-  initializeClock(city, timezone, addedClockContainer);
-
-  return addedClockContainer;
+  document.getElementById("clocks").appendChild(cityElement);
+  updateCityClock(cityElement, timezone); // Update clock immediately after adding
 }
 
-function updateClock(city, timezone, clockContainer) {
-  let currentTime = moment().tz(timezone);
+function removeAllClocks() {
+  let container = document.getElementById("clocks");
+  container.innerHTML = ""; // Clear all clock elements
+}
 
-  updateElement(clockContainer, ".am-pm", currentTime.format("A"));
-  updateElement(clockContainer, ".date", currentTime.format("MMMM Do YYYY"));
-
-  let cityElement = clockContainer.querySelector(".city");
-  cityElement.innerHTML = city;
-
-  ["hours", "minutes", "seconds"].forEach((unit) => {
-    updateDigit(
-      clockContainer,
-      `#${
-        city.toLowerCase() === "new" ? "new" : city.toLowerCase()
-      }-${unit}-tens`,
-      `#${
-        city.toLowerCase() === "new" ? "new" : city.toLowerCase()
-      }-${unit}-units`,
-      currentTime.format(
-        unit === "hours" ? "h" : unit === "minutes" ? "mm" : "ss"
-      )
-    );
+function updateClocks() {
+  let cities = document.querySelectorAll(".city");
+  cities.forEach((city) => {
+    let timezone = getTimezone(city.querySelector("h2").textContent);
+    updateCityClock(city, timezone);
   });
 }
 
-function updateElement(clockContainer, selector, value) {
-  let element = clockContainer.querySelector(selector);
-  if (element) {
-    element.innerHTML = value;
-  }
+function updateCityClock(cityElement, timezone) {
+  let now = moment().tz(timezone);
+  let timeElement = cityElement.querySelector(".time");
+  let dateElement = cityElement.querySelector(".date");
+
+  timeElement.textContent = now.format("h:mm:ss A");
+  dateElement.textContent = now.format("MMMM Do YYYY");
 }
 
-function updateDigit(clockContainer, tensSelector, unitsSelector, value) {
-  let [tens, units] = value.toString().padStart(2, "0").split("");
+function getTimezone(cityName) {
+  const timezoneMap = {
+    Perth: "Australia/Perth",
+    Brighton: "Europe/London",
+  };
 
-  updateElement(clockContainer, tensSelector, tens);
-  updateElement(clockContainer, unitsSelector, units);
+  return timezoneMap[cityName];
 }
-
-function startClockInterval(city, timezone, clockContainer) {
-  if (clockContainer.clockInterval) {
-    clearInterval(clockContainer.clockInterval);
-  }
-
-  clockContainer.clockInterval = setInterval(
-    () => updateClock(city, timezone, clockContainer),
-    1000
-  );
-}
-
-function updateCity() {
-  let selectedOption = citySelect.options[citySelect.selectedIndex];
-
-  let cityTimezone;
-  if (selectedOption.value === "current") {
-    cityTimezone = moment.tz.guess();
-  } else if (selectedOption && !selectedOption.disabled) {
-    cityTimezone = selectedOption.getAttribute("data-timezone");
-    let selectedCity = selectedOption.text;
-
-    let clockContainer;
-    if (selectedCity === "Perth") {
-      clockContainer = perthClockContainer;
-    } else if (selectedCity === "Brighton") {
-      clockContainer = brightonClockContainer;
-    } else {
-      clockContainer = createNewClock(selectedCity, cityTimezone);
-    }
-
-    initializeClock(selectedCity, cityTimezone, clockContainer);
-  }
-}
-
-citySelect.addEventListener("change", updateCity);
-
-let defaultCityTimezone = "Australia/Perth";
-let defaultCity = "Perth";
-
-perthClockContainer.querySelector(".city").innerHTML = defaultCity;
-initializeClock(defaultCity, defaultCityTimezone, perthClockContainer);
-
-let brightonDefaultCityTimezone = "Europe/London";
-let brightonDefaultCity = "Brighton";
-
-brightonClockContainer.querySelector(".city").innerHTML = brightonDefaultCity;
-initializeClock(
-  brightonDefaultCity,
-  brightonDefaultCityTimezone,
-  brightonClockContainer
-);

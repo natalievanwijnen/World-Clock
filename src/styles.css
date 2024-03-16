@@ -4,7 +4,7 @@
 }
 
 body {
-  font-family: "source-sans-pro", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-weight: 300;
   font-style: normal;
   display: flex;
@@ -22,8 +22,7 @@ body {
   padding: 20px;
 }
 
-h1,
-h2 {
+h1 {
   font-weight: 300;
   margin: 0;
 }
@@ -37,59 +36,40 @@ select {
   border: none;
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: "source-sans-pro", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 16px;
   font-weight: 300;
   font-style: normal;
   outline: none;
   padding: 8px;
-}
-
-.clock-container {
-  margin: 20px 0;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.clock {
-  display: inline-block;
-  margin: 10px;
-  text-align: center;
+  margin-bottom: 20px;
 }
 
 .city {
-  font-size: 32px;
+  margin: 20px 0;
+}
+
+.city h2 {
+  font-size: 24px;
   margin-bottom: 5px;
-}
-
-.digit {
-  font-size: 28px;
-  display: inline;
-  margin: 0 5px;
-}
-
-.separator,
-.am-pm {
-  display: inline;
-  font-size: 14px;
-  vertical-align: 3px;
 }
 
 .date {
   font-size: 20px;
-  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.time {
+  font-size: 28px;
 }
 
 footer {
   font-size: 16px;
   text-align: center;
+  margin-top: 20px;
 }
 
 footer a {
   color: var(--text-color);
-  font-size: 16px;
   text-decoration: none;
 }
